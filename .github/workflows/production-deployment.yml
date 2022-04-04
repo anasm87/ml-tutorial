@@ -17,7 +17,6 @@ jobs:
           git fetch --all --unshallow
           git checkout heroku 2>/dev/null || git checkout -b heroku
           git merge main -X theirs --allow-unrelated-histories
-          git:remote -a anasm87mlbauen
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
