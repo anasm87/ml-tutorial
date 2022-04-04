@@ -9,13 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Switch to heroku1 branch
+      - name: Switch to heroku branch
         shell: bash
         run: |
           git config --global user.email ""
           git config --global user.name "Github Actions"
           git fetch --all --unshallow
-          git checkout heroku1 2>/dev/null || git checkout -b heroku1
+          git checkout heroku 2>/dev/null || git checkout -b heroku
           git merge main -X theirs --allow-unrelated-histories
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -30,17 +30,17 @@ jobs:
         with:
           name: baummethoden_lr.pickle
           path: data/models/baummethoden_lr.pickle
-      - name: Push changes to heroku1 branch
+      - name: Push changes to heroku branch
         shell: bash
         run: |
           git add .
           git add --force data/models/baummethoden_lr.pickle
           git commit -m "[CI] update trained model" || echo "No changes to commit"
-          git push --set-upstream origin heroku1
-      - name: Deploy to Heroku1
+          git push --set-upstream origin heroku
+      - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           heroku_email: ${{secrets.HEROKU_EMAIL}}
-          branch: "heroku1"
+          branch: "heroku"
